@@ -3,207 +3,267 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wings Smart - Global Cloud</title>
-    
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968890.png" type="image/png">
+    <title>Wings Smart</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968890.png">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
         body {
-            background: #0a0f1c;
             margin: 0;
             font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #0a84ff 0%, #00c3ff 100%);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            color: white;
             overflow: hidden;
-            color: #fff;
         }
 
-        .bg {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 70%, rgba(165, 243, 252, 0.08) 0%, transparent 60%);
-            animation: rotate 35s linear infinite;
-            z-index: -2;
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            padding-bottom: 80px;
         }
 
-        .bg::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('https://picsum.photos/id/1015/1920/1080') center/cover;
-            opacity: 0.07;
-            z-index: -1;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .glass {
-            position: relative;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(24px);
-            border-radius: 36px;
-            padding: 50px 40px 45px;
-            width: 92%;
-            max-width: 400px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7),
-                        inset 0 0 40px rgba(56, 189, 248, 0.1);
+        header {
             text-align: center;
-            overflow: hidden;
-        }
-
-        .glass::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        h1 {
-            font-size: 2.6rem;
+            padding: 20px 0 10px;
+            font-size: 1.8rem;
             font-weight: 700;
-            letter-spacing: 8px;
-            margin: 0 0 6px 0;
-            background: linear-gradient(90deg, #67e8f9, #38bdf8, #bae6fd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        .subtitle {
-            color: #67e8f9;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 4px;
-            margin-bottom: 45px;
-            opacity: 0.95;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 24px 20px;
-            margin: 16px 0;
+        /* HOME PAGE */
+        .weather-card {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
             border-radius: 24px;
-            border: 1px solid rgba(103, 232, 249, 0.3);
-            background: rgba(15, 23, 42, 0.6);
-            color: #e0f2fe;
-            font-size: 1.15rem;
+            margin: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .location {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .temperature {
+            font-size: 4.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .status {
+            font-size: 0.95rem;
+            opacity: 0.85;
+        }
+
+        .lamps {
+            display: flex;
+            gap: 15px;
+            padding: 0 20px;
+        }
+
+        .lamp-btn {
+            flex: 1;
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 18px;
+            padding: 20px 10px;
+            text-align: center;
+            font-size: 1.05rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            outline: none;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: all 0.3s;
         }
 
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 40%;
-            height: 400%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg);
-            transition: all 0.6s;
-            opacity: 0;
+        .lamp-btn.active {
+            background: #fff;
+            color: #0a84ff;
+            box-shadow: 0 0 20px rgba(255,255,255,0.6);
         }
 
-        .btn:hover::after {
-            opacity: 1;
-            left: 120%;
+        /* SETTINGS PAGE */
+        .settings-card {
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            margin: 20px;
+            padding: 25px;
         }
 
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
-        }
-
-        .btn.active {
-            background: linear-gradient(135deg, #38bdf8, #67e8f9);
-            color: #0f172a;
+        .input {
+            width: 100%;
+            padding: 16px;
+            margin: 12px 0;
             border: none;
-            font-weight: 700;
-            box-shadow: 0 0 40px rgba(103, 232, 249, 0.7);
+            border-radius: 12px;
+            font-size: 1.05rem;
+            background: rgba(255,255,255,0.9);
+            color: #1e3a8a;
         }
 
-        .icon {
-            font-size: 1.4rem;
-            margin-right: 12px;
+        .btn-save {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            color: #0a84ff;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .nav-item {
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 20px;
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            background: rgba(255,255,255,0.3);
         }
     </style>
 </head>
 <body>
-    <div class="bg"></div>
-    
-    <div class="glass">
-        <h1>WINGS</h1>
-        <div class="subtitle">GLOBAL CLOUD SYSTEM</div>
-        
-        <button id="s1" class="btn" onclick="toggle(1)">
-            <span class="icon">💡</span> <span id="label1">Saklar 1</span> : <span id="status1">OFF</span>
-        </button>
-        
-        <button id="s2" class="btn" onclick="toggle(2)">
-            <span class="icon">💡</span> <span id="label2">Saklar 2</span> : <span id="status2">OFF</span>
-        </button>
+
+<div class="container" id="home-page">
+    <header>Wings Smart</header>
+
+    <!-- Cuaca Card -->
+    <div class="weather-card">
+        <div class="location">Cerah Berawan</div>
+        <div class="location">Tulungagung</div>
+        <div class="temperature">32°C</div>
+        <div class="status" id="firebase-status">Firebase: Online</div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-database-compat.js"></script>
+    <!-- Lampu -->
+    <div class="lamps">
+        <button id="lamp1" class="lamp-btn" onclick="toggleLamp(1)">
+            Lampu1<br><span id="lamp1-status">OFF</span>
+        </button>
+        <button id="lamp2" class="lamp-btn" onclick="toggleLamp(2)">
+            Lampu 2<br><span id="lamp2-status">OFF</span>
+        </button>
+    </div>
+</div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",
-            databaseURL:"https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app/"
-        };
+<!-- SETTINGS PAGE (hidden by default) -->
+<div class="container" id="settings-page" style="display: none;">
+    <header>Settings</header>
 
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+    <div class="settings-card">
+        <h3 style="margin: 10px 0 15px;">Nama Saklar</h3>
+        <input type="text" id="nama1" class="input" placeholder="Nama Saklar 1" value="Lampu1">
+        <input type="text" id="nama2" class="input" placeholder="Nama Saklar 2" value="Lampu 2">
+        <button class="btn-save" onclick="saveNames()">SIMPAN NAMA</button>
+    </div>
 
-        function updateUI(n, state, name) {
-            const btn = document.getElementById('s' + n);
-            const labelEl = document.getElementById('label' + n);
-            const statusEl = document.getElementById('status' + n);
+    <div class="settings-card">
+        <h3 style="margin: 10px 0 15px;">WiFi</h3>
+        <button class="btn-save" onclick="scanWifi()">SCAN WIFI</button>
+    </div>
+</div>
 
-            labelEl.textContent = name || `Saklar ${n}`;
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+    <div class="nav-item active" id="nav-home" onclick="showPage('home')">HOME</div>
+    <div class="nav-item" id="nav-settings" onclick="showPage('settings')">SETTINGS</div>
+</div>
 
-            if (state === true) {
-                btn.classList.add('active');
-                statusEl.textContent = "ON";
-            } else {
-                btn.classList.remove('active');
-                statusEl.textContent = "OFF";
-            }
-        }
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/12.13.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.13.0/firebase-database-compat.js"></script>
 
-        function toggle(n) {
-            const ref = db.ref('saklar' + n);
-            ref.once('value').then(snapshot => {
-                ref.set(!snapshot.val());
-            });
-        }
+<script>
+    // ================== GANTI BAGIAN INI ==================
+    const firebaseConfig = {
+        apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",
+        databaseURL: "https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app/"   // ← GANTI INI!
+    };
+    // ====================================================
 
-        // Realtime listener
-        db.ref('/').on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            updateUI(1, data.saklar1, data.nama1);
-            updateUI(2, data.saklar2, data.nama2);
-        });
-    </script>
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // Toggle Lampu
+    function toggleLamp(n) {
+        const ref = db.ref('saklar' + n);
+        ref.once('value').then(s => ref.set(!s.val()));
+    }
+
+    // Update UI dari Firebase
+    function updateUI(data) {
+        // Update Lampu 1
+        const lamp1Active = data.saklar1 === true;
+        document.getElementById('lamp1').classList.toggle('active', lamp1Active);
+        document.getElementById('lamp1-status').textContent = lamp1Active ? 'ON' : 'OFF';
+
+        // Update Lampu 2
+        const lamp2Active = data.saklar2 === true;
+        document.getElementById('lamp2').classList.toggle('active', lamp2Active);
+        document.getElementById('lamp2-status').textContent = lamp2Active ? 'ON' : 'OFF';
+    }
+
+    // Simpan Nama Saklar
+    function saveNames() {
+        const nama1 = document.getElementById('nama1').value || "Lampu1";
+        const nama2 = document.getElementById('nama2').value || "Lampu 2";
+        
+        db.ref('nama1').set(nama1);
+        db.ref('nama2').set(nama2);
+        alert("Nama saklar berhasil disimpan!");
+    }
+
+    function scanWifi() {
+        alert("Fitur SCAN WIFI sedang dalam pengembangan...\n\n(Nanti bisa ditambahkan ESP32 WiFi scan)");
+    }
+
+    // Pindah halaman
+    function showPage(page) {
+        document.getElementById('home-page').style.display = page === 'home' ? 'block' : 'none';
+        document.getElementById('settings-page').style.display = page === 'settings' ? 'block' : 'none';
+
+        document.getElementById('nav-home').classList.toggle('active', page === 'home');
+        document.getElementById('nav-settings').classList.toggle('active', page === 'settings');
+    }
+
+    // Realtime Listener
+    db.ref('/').on('value', (snapshot) => {
+        const data = snapshot.val() || {};
+        updateUI(data);
+        
+        // Update nama di settings jika ada
+        if (data.nama1) document.getElementById('nama1').value = data.nama1;
+        if (data.nama2) document.getElementById('nama2').value = data.nama2;
+    });
+
+    // Inisialisasi
+    window.onload = () => {
+        showPage('home');
+    };
+</script>
 </body>
 </html>
