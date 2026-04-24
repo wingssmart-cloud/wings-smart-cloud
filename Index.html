@@ -1,90 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wings Smart - Global Cloud</title>
     
-    <link rel="icon" href="https://flaticon.com">
-    <link rel="apple-touch-icon" href="https://flaticon.com">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968890.png" type="image/png">
 
-    <script src="https://gstatic.com"></script>
-    <script src="https://gstatic.com"></script>
     <style>
-        body { background: #0f172a; margin: 0; font-family: 'Segoe UI', sans-serif; min-height: 100vh; color: #fff; overflow-x: hidden; }
-        .bg { position: fixed; width: 200%; height: 200%; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); animation: rotate 20s linear infinite; z-index: -1; }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .container { padding: 30px 20px; display: flex; flex-direction: column; align-items: center; }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border-radius: 30px; padding: 30px; width: 100%; max-width: 350px; border: 1px solid rgba(255,255,255,0.1); text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin-bottom: 20px; }
-        h2 { font-weight: 300; letter-spacing: 5px; margin: 0; }
-        .status { color: #38bdf8; font-size: 10px; margin-bottom: 30px; letter-spacing: 2px; }
-        .btn { width: 100%; padding: 22px; margin: 12px 0; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03); color: #94a3b8; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.4s; }
-        .btn.active { background: #38bdf8; color: #fff; box-shadow: 0 0 25px rgba(56,189,248,0.4); border: none; }
-        input { width: 100%; padding: 15px; margin: 10px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.2); background: rgba(0,0,0,0.3); color: #fff; box-sizing: border-box; font-size: 14px; }
-        .nav { position: fixed; bottom: 30px; background: rgba(255,255,255,0.1); backdrop-filter: blur(15px); display: flex; border-radius: 25px; padding: 6px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .nav div { padding: 12px 25px; cursor: pointer; border-radius: 20px; font-size: 14px; transition: 0.3s; font-weight: bold; }
-        .nav .act { background: #38bdf8; color: #fff; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        body {
+            background: #0a0f1c;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            color: #fff;
+        }
+
+        .bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
+                        radial-gradient(circle at 80% 70%, rgba(165, 243, 252, 0.08) 0%, transparent 60%);
+            animation: rotate 35s linear infinite;
+            z-index: -2;
+        }
+
+        .bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://picsum.photos/id/1015/1920/1080') center/cover;
+            opacity: 0.07;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .glass {
+            position: relative;
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(24px);
+            border-radius: 36px;
+            padding: 50px 40px 45px;
+            width: 92%;
+            max-width: 400px;
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7),
+                        inset 0 0 40px rgba(56, 189, 248, 0.1);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .glass::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            margin: 0 0 6px 0;
+            background: linear-gradient(90deg, #67e8f9, #38bdf8, #bae6fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: #67e8f9;
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 4px;
+            margin-bottom: 45px;
+            opacity: 0.95;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 24px 20px;
+            margin: 16px 0;
+            border-radius: 24px;
+            border: 1px solid rgba(103, 232, 249, 0.3);
+            background: rgba(15, 23, 42, 0.6);
+            color: #e0f2fe;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 40%;
+            height: 400%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-25deg);
+            transition: all 0.6s;
+            opacity: 0;
+        }
+
+        .btn:hover::after {
+            opacity: 1;
+            left: 120%;
+        }
+
+        .btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn.active {
+            background: linear-gradient(135deg, #38bdf8, #67e8f9);
+            color: #0f172a;
+            border: none;
+            font-weight: 700;
+            box-shadow: 0 0 40px rgba(103, 232, 249, 0.7);
+        }
+
+        .icon {
+            font-size: 1.4rem;
+            margin-right: 12px;
+        }
     </style>
 </head>
 <body>
     <div class="bg"></div>
-    <div id="p_home" class="container">
-        <div class="glass">
-            <h2>WINGS</h2>
-            <div class="status">CLOUD SYSTEM ONLINE</div>
-            <button id="s1" class="btn" onclick="toggle(1)">Sinyal Lemah...</button>
-            <button id="s2" class="btn" onclick="toggle(2)">Sinyal Lemah...</button>
-        </div>
+    
+    <div class="glass">
+        <h1>WINGS</h1>
+        <div class="subtitle">GLOBAL CLOUD SYSTEM</div>
+        
+        <button id="s1" class="btn" onclick="toggle(1)">
+            <span class="icon">💡</span> <span id="label1">Saklar 1</span> : <span id="status1">OFF</span>
+        </button>
+        
+        <button id="s2" class="btn" onclick="toggle(2)">
+            <span class="icon">💡</span> <span id="label2">Saklar 2</span> : <span id="status2">OFF</span>
+        </button>
     </div>
-    <div id="p_set" class="container" style="display:none;">
-        <div class="glass">
-            <h3>PENGATURAN</h3>
-            <input id="n1" type="text" placeholder="Nama Lampu 1">
-            <input id="n2" type="text" placeholder="Nama Lampu 2">
-            <button class="btn active" onclick="saveNames()">SIMPAN</button>
-        </div>
-    </div>
-    <center>
-        <div class="nav">
-            <div id="m_home" class="act" onclick="show('home')">BERANDA</div>
-            <div id="m_set" onclick="show('set')">SAYA</div>
-        </div>
-    </center>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-database-compat.js"></script>
 
     <script>
-        const conf = { 
+        const firebaseConfig = {
             apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",
-            databaseURL: "https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app"     
+            databaseURL:"https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app/"
         };
-        firebase.initializeApp(conf);
+
+        const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        db.ref('/').on('value', (s) => {
-            const d = s.val() || {};
-            const name1 = d.nama1 || "Lampu Utama";
-            const name2 = d.nama2 || "Lampu Teras";
-            document.getElementById('s1').innerText = name1 + (d.saklar1 ? " : ON" : " : OFF");
-            document.getElementById('s2').innerText = name2 + (d.saklar2 ? " : ON" : " : OFF");
-            document.getElementById('s1').className = d.saklar1 ? "btn active" : "btn";
-            document.getElementById('s2').className = d.saklar2 ? "btn active" : "btn";
-        });
+
+        function updateUI(n, state, name) {
+            const btn = document.getElementById('s' + n);
+            const labelEl = document.getElementById('label' + n);
+            const statusEl = document.getElementById('status' + n);
+
+            labelEl.textContent = name || `Saklar ${n}`;
+
+            if (state === true) {
+                btn.classList.add('active');
+                statusEl.textContent = "ON";
+            } else {
+                btn.classList.remove('active');
+                statusEl.textContent = "OFF";
+            }
+        }
+
         function toggle(n) {
-            const r = db.ref('saklar' + n);
-            r.once('value').then(s => r.set(!s.val()));
+            const ref = db.ref('saklar' + n);
+            ref.once('value').then(snapshot => {
+                ref.set(!snapshot.val());
+            });
         }
-        function saveNames() {
-            db.ref('nama1').set(document.getElementById('n1').value);
-            db.ref('nama2').set(document.getElementById('n2').value);
-            alert("Tersimpan!");
-            show('home');
-        }
-        function show(p) {
-            document.getElementById('p_home').style.display = p=='home'?'flex':'none';
-            document.getElementById('p_set').style.display = p=='set'?'flex':'none';
-            document.getElementById('m_home').className = p=='home'?'act':'';
-            document.getElementById('m_set').className = p=='set'?'act':'';
-        }
+
+        // Realtime listener
+        db.ref('/').on('value', (snapshot) => {
+            const data = snapshot.val() || {};
+            updateUI(1, data.saklar1, data.nama1);
+            updateUI(2, data.saklar2, data.nama2);
+        });
     </script>
 </body>
 </html>
