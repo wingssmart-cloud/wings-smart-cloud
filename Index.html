@@ -54,7 +54,10 @@
     </center>
 
     <script>
-        const conf = { databaseURL: "https://firebasedatabase.app" };
+                 const conf = { 
+            apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",
+            databaseURL: "https://firebasedatabase.app" 
+        };
         firebase.initializeApp(conf);
         const db = firebase.database();
         db.ref('/').on('value', (s) => {
