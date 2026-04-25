@@ -1,209 +1,201 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wings Smart - Global Cloud</title>
-    
-    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/5968/5968890.png" type="image/png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wings Smart</title>
 
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-        body {
-            background: #0a0f1c;
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            color: #fff;
-        }
+<style>
+*{box-sizing:border-box}
 
-        .bg {
-            position: fixed;
-            inset: 0;
-            background: radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.15) 0%, transparent 60%),
-                        radial-gradient(circle at 80% 70%, rgba(165, 243, 252, 0.08) 0%, transparent 60%);
-            animation: rotate 35s linear infinite;
-            z-index: -2;
-        }
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:#0a0f1c;
+    color:#fff;
+}
 
-        .bg::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url('https://picsum.photos/id/1015/1920/1080') center/cover;
-            opacity: 0.07;
-            z-index: -1;
-        }
+.container{
+    padding:20px;
+    max-width:500px;
+    margin:auto;
+}
 
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+/* WEATHER */
+.weather{
+    border-radius:28px;
+    padding:25px;
+    background-size:cover;
+    background-position:center;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,0.6);
+}
 
-        .glass {
-            position: relative;
-            background: rgba(15, 23, 42, 0.65);
-            backdrop-filter: blur(24px);
-            border-radius: 36px;
-            padding: 50px 40px 45px;
-            width: 92%;
-            max-width: 400px;
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.7),
-                        inset 0 0 40px rgba(56, 189, 248, 0.1);
-            text-align: center;
-            overflow: hidden;
-        }
+.weather::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,rgba(0,0,0,0.2),rgba(0,0,0,0.6));
+}
 
-        .glass::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-        }
+.weather-content{
+    position:relative;
+    z-index:2;
+}
 
-        h1 {
-            font-size: 2.6rem;
-            font-weight: 700;
-            letter-spacing: 8px;
-            margin: 0 0 6px 0;
-            background: linear-gradient(90deg, #67e8f9, #38bdf8, #bae6fd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+.temp{
+    font-size:52px;
+    font-weight:700;
+}
 
-        .subtitle {
-            color: #67e8f9;
-            font-size: 0.95rem;
-            font-weight: 500;
-            letter-spacing: 4px;
-            margin-bottom: 45px;
-            opacity: 0.95;
-        }
+/* CARD */
+.card{
+    margin-top:25px;
+    display:flex;
+    gap:15px;
+}
 
-        .btn {
-            width: 100%;
-            padding: 24px 20px;
-            margin: 16px 0;
-            border-radius: 24px;
-            border: 1px solid rgba(103, 232, 249, 0.3);
-            background: rgba(15, 23, 42, 0.6);
-            color: #e0f2fe;
-            font-size: 1.15rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            outline: none;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+.box{
+    flex:1;
+    padding:22px;
+    border-radius:22px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(14px);
+    text-align:center;
+    transition:.3s;
+    cursor:pointer;
+}
 
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 40%;
-            height: 400%;
-            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-25deg);
-            transition: all 0.6s;
-            opacity: 0;
-        }
+.box.active{
+    background:linear-gradient(135deg,#38bdf8,#67e8f9);
+    color:#000;
+}
 
-        .btn:hover::after {
-            opacity: 1;
-            left: 120%;
-        }
-
-        .btn:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.3);
-        }
-
-        .btn.active {
-            background: linear-gradient(135deg, #38bdf8, #67e8f9);
-            color: #0f172a;
-            border: none;
-            font-weight: 700;
-            box-shadow: 0 0 40px rgba(103, 232, 249, 0.7);
-        }
-
-        .icon {
-            font-size: 1.4rem;
-            margin-right: 12px;
-        }
-    </style>
+/* NAV */
+.nav{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    display:flex;
+    justify-content:space-around;
+    padding:15px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+}
+</style>
 </head>
+
 <body>
-    <div class="bg"></div>
-    
-    <div class="glass">
-        <h1>WINGS</h1>
-        <div class="subtitle">GLOBAL CLOUD SYSTEM</div>
-        
-        <button id="s1" class="btn" onclick="toggle(1)">
-            <span class="icon">💡</span> <span id="label1">Saklar 1</span> : <span id="status1">OFF</span>
-        </button>
-        
-        <button id="s2" class="btn" onclick="toggle(2)">
-            <span class="icon">💡</span> <span id="label2">Saklar 2</span> : <span id="status2">OFF</span>
-        </button>
+
+<div class="container">
+
+    <!-- WEATHER -->
+    <div id="weather" class="weather">
+        <div class="weather-content">
+            <h2 id="cuaca">Cerah</h2>
+            <p>Indonesia</p>
+            <div class="temp" id="suhu">32°C</div>
+            <small id="statusFirebase">Connecting...</small>
+        </div>
     </div>
 
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-database-compat.js"></script>
+    <!-- LAMPU -->
+    <div class="card">
+        <div id="l1" class="box" onclick="toggle(1)">
+            <h3>💡 Lampu 1</h3>
+            <p id="s1">OFF</p>
+        </div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",
-            databaseURL: "https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app/"    // Ganti dengan URL database kamu
-        };
+        <div id="l2" class="box" onclick="toggle(2)">
+            <h3>💡 Lampu 2</h3>
+            <p id="s2">OFF</p>
+        </div>
+    </div>
 
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
+</div>
 
-        function updateUI(n, state, name) {
-            const btn = document.getElementById('s' + n);
-            const labelEl = document.getElementById('label' + n);
-            const statusEl = document.getElementById('status' + n);
+<div class="nav">
+    <span>HOME</span>
+    <span>SMART</span>
+</div>
 
-            labelEl.textContent = name || `Saklar ${n}`;
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/12.12.1/firebase-database-compat.js"></script>
 
-            if (state === true) {
-                btn.classList.add('active');
-                statusEl.textContent = "ON";
-            } else {
-                btn.classList.remove('active');
-                statusEl.textContent = "OFF";
-            }
-        }
+<script>
 
-        function toggle(n) {
-            const ref = db.ref('saklar' + n);
-            ref.once('value').then(snapshot => {
-                ref.set(!snapshot.val());
-            });
-        }
+// 🔥 CONFIG (SUDAH DIISI CONTOH FORMAT BENAR)
+const firebaseConfig = {
+    apiKey: "AIzaSyAbCdEfExampleKey123456",  
+    databaseURL: "https://wings-smart-default-rtdb.firebaseio.com/"
+};
 
-        // Realtime listener
-        db.ref('/').on('value', (snapshot) => {
-            const data = snapshot.val() || {};
-            updateUI(1, data.saklar1, data.nama1);
-            updateUI(2, data.saklar2, data.nama2);
-        });
-    </script>
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+
+// ===== STATUS KONEKSI =====
+firebase.database().ref(".info/connected").on("value", snap => {
+    document.getElementById("statusFirebase").innerText =
+        snap.val() ? "Firebase: Online" : "Firebase: Offline";
+});
+
+
+// ===== REALTIME UPDATE =====
+db.ref('/').on('value', snap => {
+    const d = snap.val() || {};
+
+    updateLamp(1, d.saklar1 === true);
+    updateLamp(2, d.saklar2 === true);
+});
+
+
+// ===== TOGGLE =====
+function toggle(n){
+    const ref = db.ref('saklar' + n);
+
+    ref.once('value').then(snap => {
+        const val = snap.val() === true;
+        ref.set(!val);
+    });
+}
+
+
+// ===== UPDATE UI =====
+function updateLamp(n, state){
+    document.getElementById("s"+n).innerText = state ? "ON" : "OFF";
+    document.getElementById("l"+n).classList.toggle("active", state);
+}
+
+
+// ===== BACKGROUND CUACA =====
+function setWeatherBg(cond){
+    let img="";
+
+    if(cond.includes("cerah")){
+        img="https://images.unsplash.com/photo-1502082553048-f009c37129b9";
+    }else if(cond.includes("hujan")){
+        img="https://images.unsplash.com/photo-1501696461415-6bd6660c6742";
+    }else if(cond.includes("berawan")){
+        img="https://images.unsplash.com/photo-1499346030926-9a72daac6c63";
+    }else{
+        img="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee";
+    }
+
+    document.getElementById("weather").style.backgroundImage=`url(${img})`;
+}
+
+
+// ===== LOAD CUACA =====
+let kondisi = "Cerah Berawan";
+document.getElementById("cuaca").innerText = kondisi;
+setWeatherBg(kondisi.toLowerCase());
+
+</script>
+
 </body>
 </html>
