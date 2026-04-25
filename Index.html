@@ -1,77 +1,80 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wings Smart</title>
+<title>Wings Smart Pro</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box}
-
 body{
     margin:0;
-    font-family:'Inter',sans-serif;
-    background:#0a0f1c;
+    font-family:Inter;
+    background:linear-gradient(180deg,#00c6ff,#0072ff);
     color:#fff;
 }
 
-.container{
-    padding:20px;
-    max-width:500px;
-    margin:auto;
-}
+/* PAGE */
+.page{display:none;padding:20px}
+.active{display:block}
 
 /* WEATHER */
 .weather{
     border-radius:28px;
     padding:25px;
     background-size:cover;
-    background-position:center;
     position:relative;
     overflow:hidden;
-    box-shadow:0 20px 60px rgba(0,0,0,0.6);
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
 }
-
 .weather::after{
     content:"";
-    position:absolute;
-    inset:0;
+    position:absolute;inset:0;
     background:linear-gradient(to bottom,rgba(0,0,0,0.2),rgba(0,0,0,0.6));
 }
-
-.weather-content{
-    position:relative;
-    z-index:2;
-}
-
-.temp{
-    font-size:52px;
-    font-weight:700;
-}
+.weather-content{position:relative;z-index:2}
+.temp{font-size:52px;font-weight:700}
 
 /* CARD */
-.card{
-    margin-top:25px;
-    display:flex;
-    gap:15px;
-}
-
+.card{display:flex;gap:15px;margin-top:25px}
 .box{
     flex:1;
-    padding:22px;
+    padding:25px;
     border-radius:22px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(14px);
+    background:rgba(255,255,255,0.2);
+    backdrop-filter:blur(10px);
     text-align:center;
-    transition:.3s;
-    cursor:pointer;
+    transition:.25s;
+}
+.box:active{transform:scale(0.95)}
+.box.active{
+    background:#fff;
+    color:#000;
 }
 
-.box.active{
-    background:linear-gradient(135deg,#38bdf8,#67e8f9);
-    color:#000;
+/* SWITCH */
+.switch{
+    width:170px;height:170px;
+    border-radius:50%;
+    margin:120px auto;
+    display:flex;align-items:center;justify-content:center;
+    font-size:28px;
+    background:#0a0f1c;
+    transition:.3s;
+}
+.switch.on{
+    color:#0ff;
+    box-shadow:
+        0 0 20px #00f7ff,
+        0 0 60px #00f7ff,
+        inset 0 0 20px #00f7ff;
+}
+
+/* STATUS */
+.status{
+    text-align:center;
+    margin-top:-80px;
+    opacity:0.8;
 }
 
 /* NAV */
@@ -82,44 +85,78 @@ body{
     display:flex;
     justify-content:space-around;
     padding:15px;
-    background:rgba(255,255,255,0.08);
+    background:rgba(0,0,0,0.3);
     backdrop-filter:blur(10px);
 }
+
+/* INPUT */
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:12px;
+    border:none;
+}
+button{
+    padding:12px;
+    border:none;
+    border-radius:12px;
+    background:#fff;
+}
+.small{font-size:12px;text-align:center;margin-top:20px}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- HOME -->
+<div id="home" class="page active">
 
-    <!-- WEATHER -->
-    <div id="weather" class="weather">
-        <div class="weather-content">
-            <h2 id="cuaca">Cerah</h2>
-            <p>Indonesia</p>
-            <div class="temp" id="suhu">32°C</div>
-            <small id="statusFirebase">Connecting...</small>
-        </div>
-    </div>
+<div id="weather" class="weather">
+<div class="weather-content">
+<h2 id="cuaca">🌤️ ...</h2>
+<p id="lokasi"></p>
+<div class="temp" id="suhu"></div>
+<small id="fbStatus">Connecting...</small>
+</div>
+</div>
 
-    <!-- LAMPU -->
-    <div class="card">
-        <div id="l1" class="box" onclick="toggle(1)">
-            <h3>💡 Lampu 1</h3>
-            <p id="s1">OFF</p>
-        </div>
+<div class="card">
+<div id="b1" class="box" onclick="openSwitch(1)">
+💡 <span id="n1">Lampu 1</span><br>
+<span id="s1">OFF</span>
+</div>
 
-        <div id="l2" class="box" onclick="toggle(2)">
-            <h3>💡 Lampu 2</h3>
-            <p id="s2">OFF</p>
-        </div>
-    </div>
+<div id="b2" class="box" onclick="openSwitch(2)">
+💡 <span id="n2">Lampu 2</span><br>
+<span id="s2">OFF</span>
+</div>
+</div>
 
 </div>
 
+<!-- SWITCH -->
+<div id="switchPage" class="page">
+<div id="switchBtn" class="switch" onclick="toggleSwitch()">OFF</div>
+<div class="status">Tap untuk ON/OFF</div>
+</div>
+
+<!-- SETTINGS -->
+<div id="settings" class="page">
+<h3>Settings</h3>
+
+<input id="name1" placeholder="Nama Lampu 1">
+<input id="name2" placeholder="Nama Lampu 2">
+
+<button onclick="saveName()">Simpan</button>
+
+<div class="small">Versi 0.2</div>
+</div>
+
+<!-- NAV -->
 <div class="nav">
-    <span>HOME</span>
-    <span>SMART</span>
+<span onclick="nav('home')">HOME</span>
+<span onclick="nav('settings')">SETTING</span>
 </div>
 
 <!-- FIREBASE -->
@@ -128,72 +165,125 @@ body{
 
 <script>
 
-// 🔥 CONFIG (SUDAH DIISI CONTOH FORMAT BENAR)
+// 🔥 CONFIG
 const firebaseConfig = {
-    apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",  
-    databaseURL: "https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app/"
+    apiKey: "AIzaSyBugQdKa7FGb12Mg4Rm0kEC0Ngl6DhNI5E",
+    databaseURL:https://wings-smart-home-default-rtdb.asia-southeast1.firebasedatabase.app//"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 
-// ===== STATUS KONEKSI =====
-firebase.database().ref(".info/connected").on("value", snap => {
-    document.getElementById("statusFirebase").innerText =
+// ===== NAV =====
+function nav(p){
+    document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'))
+    document.getElementById(p).classList.add('active')
+}
+
+
+// ===== STATE =====
+let currentSwitch = 1;
+let s1=false, s2=false;
+
+
+// ===== OPEN SWITCH =====
+function openSwitch(n){
+    currentSwitch = n;
+    nav('switchPage');
+    updateSwitchUI();
+}
+
+
+// ===== TOGGLE =====
+function toggleSwitch(){
+    const ref = db.ref('saklar'+currentSwitch);
+    ref.set(currentSwitch==1 ? !s1 : !s2);
+}
+
+
+// ===== REALTIME LISTENER =====
+db.ref('saklar1').on('value', snap=>{
+    s1 = snap.val()===true;
+    updateHomeUI();
+});
+
+db.ref('saklar2').on('value', snap=>{
+    s2 = snap.val()===true;
+    updateHomeUI();
+});
+
+
+// ===== NAMA =====
+db.ref('/').on('value', snap=>{
+    const d = snap.val()||{};
+    document.getElementById('n1').innerText = d.nama1 || "Lampu 1";
+    document.getElementById('n2').innerText = d.nama2 || "Lampu 2";
+});
+
+
+// ===== UPDATE UI =====
+function updateHomeUI(){
+    document.getElementById('s1').innerText = s1?"ON":"OFF";
+    document.getElementById('s2').innerText = s2?"ON":"OFF";
+
+    document.getElementById('b1').classList.toggle('active',s1);
+    document.getElementById('b2').classList.toggle('active',s2);
+
+    updateSwitchUI();
+}
+
+function updateSwitchUI(){
+    let state = currentSwitch==1 ? s1 : s2;
+    let btn = document.getElementById('switchBtn');
+    btn.innerText = state?"ON":"OFF";
+    btn.classList.toggle('on',state);
+}
+
+
+// ===== SAVE NAME =====
+function saveName(){
+    db.ref('nama1').set(document.getElementById('name1').value);
+    db.ref('nama2').set(document.getElementById('name2').value);
+}
+
+
+// ===== STATUS FIREBASE =====
+firebase.database().ref(".info/connected").on("value", snap=>{
+    document.getElementById('fbStatus').innerText =
         snap.val() ? "Firebase: Online" : "Firebase: Offline";
 });
 
 
-// ===== REALTIME UPDATE =====
-db.ref('/').on('value', snap => {
-    const d = snap.val() || {};
+// ===== CUACA =====
+navigator.geolocation.getCurrentPosition(pos=>{
+    let lat=pos.coords.latitude;
+    let lon=pos.coords.longitude;
 
-    updateLamp(1, d.saklar1 === true);
-    updateLamp(2, d.saklar2 === true);
+    let api="https://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&appid=APIKEY&units=metric";
+
+    fetch(api)
+    .then(r=>r.json())
+    .then(d=>{
+        let w=d.weather[0].main.toLowerCase();
+        let icon="🌤️";
+
+        if(w.includes('cloud')) icon="☁️";
+        if(w.includes('rain')) icon="🌧️";
+        if(w.includes('clear')) icon="☀️";
+
+        document.getElementById('cuaca').innerText = icon+" "+d.weather[0].main;
+        document.getElementById('suhu').innerText = Math.round(d.main.temp)+'°C';
+        document.getElementById('lokasi').innerText = d.name;
+
+        let img="";
+        if(w.includes('clear')) img="https://images.unsplash.com/photo-1502082553048";
+        else if(w.includes('cloud')) img="https://images.unsplash.com/photo-1499346030926";
+        else if(w.includes('rain')) img="https://images.unsplash.com/photo-1501696461415";
+
+        document.getElementById('weather').style.backgroundImage=`url(${img})`;
+    })
 });
-
-
-// ===== TOGGLE =====
-function toggle(n){
-    const ref = db.ref('saklar' + n);
-
-    ref.once('value').then(snap => {
-        const val = snap.val() === true;
-        ref.set(!val);
-    });
-}
-
-
-// ===== UPDATE UI =====
-function updateLamp(n, state){
-    document.getElementById("s"+n).innerText = state ? "ON" : "OFF";
-    document.getElementById("l"+n).classList.toggle("active", state);
-}
-
-
-// ===== BACKGROUND CUACA =====
-function setWeatherBg(cond){
-    let img="";
-
-    if(cond.includes("cerah")){
-        img="https://images.unsplash.com/photo-1502082553048-f009c37129b9";
-    }else if(cond.includes("hujan")){
-        img="https://images.unsplash.com/photo-1501696461415-6bd6660c6742";
-    }else if(cond.includes("berawan")){
-        img="https://images.unsplash.com/photo-1499346030926-9a72daac6c63";
-    }else{
-        img="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee";
-    }
-
-    document.getElementById("weather").style.backgroundImage=`url(${img})`;
-}
-
-
-// ===== LOAD CUACA =====
-let kondisi = "Cerah Berawan";
-document.getElementById("cuaca").innerText = kondisi;
-setWeatherBg(kondisi.toLowerCase());
 
 </script>
 
